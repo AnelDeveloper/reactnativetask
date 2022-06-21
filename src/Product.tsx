@@ -34,12 +34,15 @@ export const Product = (props: StackScreenProps<{}>) => {
         return unsubscribe;
     }, [props.navigation]);
 
-    let date = new Date();
-    date.setDate(date.getDate() - 13);
+    const currentMonth = new Date();
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    console.log(months[currentMonth.getMonth()]);
 
 
+    var date = new Date();
 
-
+    // add a day
+    date.setDate(date.getDate() - 7);
 
 
     return (
@@ -49,8 +52,9 @@ export const Product = (props: StackScreenProps<{}>) => {
             renderItem={({ item }) =>
 
                 <Card style={styles.card}>
+                    <Image style={styles.img} source={{ uri: item.fields["Product Image"] ? item.fields["Product Image"] : "https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640" }}
 
-                    <Image style={styles.img} source={{ uri: item.fields["Product Image"] }} />
+                    />
                     <View style={styles.productWhole}>
                         <View style={styles.NameAndDate}>
 
@@ -61,15 +65,15 @@ export const Product = (props: StackScreenProps<{}>) => {
                                     {item.fields["Product Name"]}
                                 </Text>
                                 <Text style={styles.productDate}>
-                                    {new Date(item.fields.Posted).toLocaleDateString()}{" "}
+                                    {new Date(item.fields.Posted).toDateString()}{" "}
                                 </Text>
                             </View>
-                            <View style={styles.NewItem}>
 
-                                <Text>
-                                </Text>
 
-                            </View>
+
+                        </View>
+
+                        <View style={styles.new}>
 
                         </View>
 
@@ -78,10 +82,14 @@ export const Product = (props: StackScreenProps<{}>) => {
 
 
 
+
                         <View style={styles.ProductCategorie}>
-                            <Text style={styles.nameOfCategories}>
-                                {item.fields["Product Categories"]}
-                            </Text>
+                            {item.fields["Product Categories"]?.replace(/[^a-zA-Z ]/g, "")?.split(" ", 3).map((category) =>
+                                <Text style={styles.nameOfCategories}>
+                                    {category}
+
+                                </Text>
+                            )}
                         </View>
                     </View>
                 </Card>
@@ -103,7 +111,9 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '900',
         lineHeight: 22,
-        color: '#1a2532'
+        color: '#1a2532',
+
+
     },
 
     card: {
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
     },
 
     img: {
-        height: 113, width: 70, position: "absolute", justifyContent: 'flex-start', alignItems: 'flex-start'
+        height: 113, width: 85, position: "absolute", justifyContent: 'flex-start', alignItems: 'flex-start'
     },
 
 
@@ -130,8 +140,7 @@ const styles = StyleSheet.create({
 
 
     NameAndDate: {
-        width: 253,
-
+        width: 230,
 
 
 
@@ -144,11 +153,31 @@ const styles = StyleSheet.create({
 
     ProductCategorie: {
 
+        justifyContent: "center",
+
+
+        alignItems: "center",
+
+
+
+
+
+
 
     }
 
     ,
     nameOfCategories: {
+        marginBottom: 5,
+
+
+        backgroundColor: "#D5E6FF",
+        borderRadius: 48,
+        padding: 4,
+        alignItems: "center"
+
+
+
 
     }
 
